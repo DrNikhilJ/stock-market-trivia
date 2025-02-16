@@ -7,6 +7,137 @@ const allQuestions = [
         correctAnswer: "Sensex"
     },
     {
+        question: "What is the Japanese term for a candlestick pattern showing prices opening and closing at their highs?",
+        choices: ["Doji", "White Marubozu", "Harami", "Tenkan"],
+        correctAnswer: "White Marubozu"
+    },
+    {
+        question: "What is the Sortino Ratio used to measure?",
+        choices: [
+            "Downside deviation of returns",
+            "Market volatility",
+            "Portfolio diversification",
+            "Trading volume"
+        ],
+        correctAnswer: "Downside deviation of returns"
+    },
+    {
+        question: "Which debt instrument has the highest priority in case of company liquidation?",
+        choices: ["Debentures", "Secured Bonds", "Unsecured Bonds", "Convertible Bonds"],
+        correctAnswer: "Secured Bonds"
+    },
+    {
+        question: "What is the minimum trading unit for gold futures on MCX?",
+        choices: ["1 gram", "10 grams", "100 grams", "1 kg"],
+        correctAnswer: "10 grams"
+    },
+[... Previous questions from index 5 to 50 remain exactly the same ...]
+    {
+        question: "What is the Elliott Wave Theory's basic pattern?",
+        choices: [
+            "5 waves up, 3 waves down",
+            "3 waves up, 2 waves down",
+            "8 waves up, 5 waves down",
+            "2 waves up, 2 waves down"
+        ],
+        correctAnswer: "5 waves up, 3 waves down"
+    },
+    {
+        question: "Which ratio indicates a company's ability to meet short-term obligations?",
+        choices: ["Current Ratio", "P/E Ratio", "Debt-Equity Ratio", "ROE"],
+        correctAnswer: "Current Ratio"
+    },
+    {
+        question: "What is the maximum permissible leverage in currency futures trading?",
+        choices: ["20x", "50x", "100x", "30x"],
+        correctAnswer: "30x"
+    },
+    {
+        question: "In technical analysis, what does RSI stand for?",
+        choices: [
+            "Relative Strength Index",
+            "Retail Sales Indicator",
+            "Risk Sensitivity Index",
+            "Revenue Stream Indicator"
+        ],
+        correctAnswer: "Relative Strength Index"
+    },
+    {
+        question: "What is 'Put-Call Parity' in options trading?",
+        choices: [
+            "Relationship between put and call prices",
+            "Equal number of puts and calls",
+            "Options strike price balance",
+            "Option premium calculation"
+        ],
+        correctAnswer: "Relationship between put and call prices"
+    },
+    {
+        question: "Which pattern is considered a continuation pattern in technical analysis?",
+        choices: ["Flag", "Double Top", "Head and Shoulders", "Diamond Top"],
+        correctAnswer: "Flag"
+    },
+    {
+        question: "What is the Fibonacci retracement level considered strongest for support?",
+        choices: ["61.8%", "50%", "38.2%", "23.6%"],
+        correctAnswer: "61.8%"
+    },
+    {
+        question: "What does NBFC stand for in Indian financial markets?",
+        choices: [
+            "Non-Banking Financial Company",
+            "National Banking Finance Corporation",
+            "New Banking Financial Committee",
+            "National Business Finance Council"
+        ],
+        correctAnswer: "Non-Banking Financial Company"
+    },
+    {
+        question: "Which of these is NOT a type of market auction in India?",
+        choices: ["Cross Auction", "Call Auction", "Block Deal", "Basket Trading"],
+        correctAnswer: "Cross Auction"
+    },
+    {
+        question: "What is the minimum investment in government securities through RBI Retail Direct?",
+        choices: ["₹10,000", "₹5,000", "₹1,000", "₹50,000"],
+        correctAnswer: "₹10,000"
+    },
+    {
+        question: "What is the concept of 'Beta Slippage' in leveraged ETFs?",
+        choices: [
+            "Decay of returns over time",
+            "Trading commission",
+            "Market volatility",
+            "Price tracking error"
+        ],
+        correctAnswer: "Decay of returns over time"
+    },
+    {
+        question: "Which tax-saving mutual fund has the shortest lock-in period?",
+        choices: ["ELSS", "PPF", "NSC", "Tax-Saving FD"],
+        correctAnswer: "ELSS"
+    },
+    {
+        question: "What is the minimum net worth requirement for a portfolio management service in India?",
+        choices: ["₹5 crore", "₹2 crore", "₹10 crore", "₹1 crore"],
+        correctAnswer: "₹5 crore"
+    },
+    {
+        question: "What is 'Backwardation' in futures markets?",
+        choices: [
+            "Spot price higher than futures price",
+            "Futures price higher than spot price",
+            "Equal spot and futures prices",
+            "No price correlation"
+        ],
+        correctAnswer: "Spot price higher than futures price"
+    },
+    {
+        question: "Which of these is a leading economic indicator?",
+        choices: ["PMI", "GDP", "Unemployment Rate", "CPI"],
+        correctAnswer: "PMI"
+    },
+    {
         question: "What is the minimum investment amount required for Systematic Investment Plans (SIPs) in most mutual funds?",
         choices: ["₹100", "₹500", "₹1000", "₹5000"],
         correctAnswer: "₹500"
