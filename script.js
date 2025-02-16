@@ -363,6 +363,12 @@ const allQuestions = [
     }
 ];
 
+// New configuration object for game settings
+const gameConfig = {
+    maxQuestions: 50,  // Maximum questions per game
+    questionTimeout: 2000  // Time between questions in milliseconds
+};
+
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
@@ -372,33 +378,47 @@ const answerButtonsElement = document.getElementById("answer-buttons");
 const resultElement = document.getElementById("result");
 
 function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+    const shuffled = [...array]; // Create a copy of the array
+    for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    return array;
+    return shuffled;
 }
 
 function initializeGame() {
-    // Create a copy of all questions and shuffle them
-    currentQuestions = shuffleArray([...allQuestions]);
-    // Take only first 50 questions
-    currentQuestions = currentQuestions.slice(0, 50);
+    // Reset game state
     currentQuestionIndex = 0;
     score = 0;
+    
+    // Get fresh shuffled questions
+    currentQuestions = shuffleArray(allQuestions).slice(0, gameConfig.maxQuestions);
+    
+    // Reset UI
+    answerButtonsElement.innerHTML = `
+        <button class="answer-button" data-choice="A">A: </button>
+        <button class="answer-button" data-choice="B">B: </button>
+        <button class="answer-button" data-choice="C">C: </button>
+        <button class="answer-button" data-choice="D">D: </button>
+    `;
+    
+    console.log(`Game initialized with ${currentQuestions.length} questions`); // Debug log
     loadQuestion();
 }
 
 function loadQuestion() {
+    if (currentQuestionIndex >= currentQuestions.length) {
+        endGame();
+        return;
+    }
+
     const currentQuestion = currentQuestions[currentQuestionIndex];
+    const shuffledChoices = shuffleArray(currentQuestion.choices);
     
-    // Shuffle the choices for this question
-    const shuffledChoices = shuffleArray([...currentQuestion.choices]);
-    
-    // Find the new index of the correct answer after shuffling
-    const correctAnswerIndex = shuffledChoices.indexOf(currentQuestion.correctAnswer);
-    
+    // Update question text with progress
     questionElement.textContent = `Question ${currentQuestionIndex + 1}/${currentQuestions.length}: ${currentQuestion.question}`;
+    
+    console.log(`Loading question ${currentQuestionIndex + 1} of ${currentQuestions.length}`); // Debug log
 
     const answerButtons = Array.from(answerButtonsElement.children);
     
@@ -412,12 +432,11 @@ function loadQuestion() {
     resultElement.textContent = "";
 
     // Update buttons with shuffled choices
-    for (let i = 0; i < answerButtons.length; i++) {
-        const button = answerButtons[i];
-        const choiceLetter = String.fromCharCode(65 + i);
-        button.textContent = `${choiceLetter}: ${shuffledChoices[i]}`;
-        button.dataset.choice = shuffledChoices[i];
-    }
+    answerButtons.forEach((button, index) => {
+        const choiceLetter = String.fromCharCode(65 + index);
+        button.textContent = `${choiceLetter}: ${shuffledChoices[index]}`;
+        button.dataset.choice = shuffledChoices[index];
+    });
 }
 
 function checkAnswer(selectedAnswer) {
@@ -452,7 +471,7 @@ function checkAnswer(selectedAnswer) {
         } else {
             endGame();
         }
-    }, 2000);
+    }, gameConfig.questionTimeout);
 }
 
 function endGame() {
@@ -465,6 +484,8 @@ function endGame() {
         </button>
     `;
     resultElement.textContent = getFeedbackMessage(percentage);
+    
+    console.log(`Game ended. Final score: ${score}/${currentQuestions.length}`); // Debug log
 }
 
 function getFeedbackMessage(percentage) {
@@ -476,14 +497,6 @@ function getFeedbackMessage(percentage) {
 }
 
 function restartGame() {
-    // Reset the UI
-    answerButtonsElement.innerHTML = `
-        <button class="answer-button" data-choice="A">A: </button>
-        <button class="answer-button" data-choice="B">B: </button>
-        <button class="answer-button" data-choice="C">C: </button>
-        <button class="answer-button" data-choice="D">D: </button>
-    `;
-    // Initialize new game with fresh shuffled questions
     initializeGame();
 }
 
@@ -496,4 +509,7 @@ answerButtonsElement.addEventListener("click", (event) => {
 });
 
 // Start the game when the page loads
-initializeGame();
+window.addEventListener('load', () => {
+    console.log('Game starting...'); // Debug log
+    initializeGame();
+});
