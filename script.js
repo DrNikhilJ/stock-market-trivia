@@ -2,13 +2,13 @@
 
 const allQuestions = [
     {
-        question: "Which index is considered the benchmark index of the Indian stock market?",
-        choices: ["NIFTY 50", "Sensex", "Dow Jones", "FTSE 100"],
-        correctAnswer: "Sensex"
+        question: "What is the 'Options Greeks' term for time decay sensitivity?",
+        choices: ["Theta", "Delta", "Gamma", "Vega"],
+        correctAnswer: "Theta"
     },
      {
         question: "Which index is considered the benchmark index of the Indian stock market?",
-        choices: ["NIFTY 50", "Sensex", "Dow Jones", "FTSE 100"],
+        choices: ["NIFTY Bank", "Sensex", "Dow Jones", "FTSE 100"],
         correctAnswer: "Sensex"
     },
     {
