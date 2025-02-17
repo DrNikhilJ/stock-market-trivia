@@ -1136,47 +1136,15 @@ function generateShareText(score, totalQuestions, percentage) {
 }
 
 function shareScore() {
-  const shareText = generateShareText(
-    score,
-    currentQuestions.length,
-    ((score / currentQuestions.length) * 100).toFixed(1)
-  );
-  const url = window.location.href;
-  const encodedText = encodeURIComponent(shareText);
-  const encodedUrl = encodeURIComponent(url);
-
-  const shareArea = document.getElementById('share-area');
-  shareArea.innerHTML += `
-    <button onclick="window.open('https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}')">Share on Twitter</button>
-    <button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}')">Share on Facebook</button>
-    <button onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}')">Share on LinkedIn</button>
-    <button onclick="window.open('https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}')">Share on WhatsApp</button>
-
-  `;
-
-  // Instagram sharing using clipboard fallback method since there is no direct URL Scheme
-  const instagramButton = document.createElement('button');
-  instagramButton.textContent = 'Share on Instagram';
-  instagramButton.addEventListener('click', () => {
-    navigator.clipboard.writeText(shareText + ' ' + url)
-      .then(() => {
-        alert('Text copied to clipboard! Please paste into your Instagram post.');
-      })
-      .catch(err => {
-        console.error('Failed to copy text: ', err);
-        alert('Failed to copy to clipboard. Please try again.');
-      });
-  });
-  shareArea.appendChild(instagramButton);
-}
+    const shareText = generateShareText(score, currentQuestions.length, 
+        ((score / currentQuestions.length) * 100).toFixed(1));
 
     // Check if Web Share API is supported
     if (navigator.share) {
         navigator.share({
-    title: 'Stock Market Crorepati Score',
-    text: shareText,
-    url: window.location.href
-})
+            title: 'Stock Market Crorepati Score',
+            text: shareText,
+        })
         .catch(error => {
             console.log('Error sharing:', error);
             fallbackShare(shareText);
