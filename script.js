@@ -391,10 +391,8 @@ function initializeGame() {
     currentQuestionIndex = 0;
     score = 0;
     
-    // Get fresh shuffled questions
-    currentQuestions = shuffleArray(allQuestions).slice(0, gameConfig.maxQuestions);
-    
     // Reset UI
+    resultElement.textContent = '';
     answerButtonsElement.innerHTML = `
         <button class="answer-button" data-choice="A">A: </button>
         <button class="answer-button" data-choice="B">B: </button>
@@ -402,9 +400,32 @@ function initializeGame() {
         <button class="answer-button" data-choice="D">D: </button>
     `;
     
-    console.log(`Game initialized with ${currentQuestions.length} questions`); // Debug log
+    // Get fresh shuffled questions
+    currentQuestions = shuffleArray(allQuestions).slice(0, gameConfig.maxQuestions);
+    
+    // Bind click events to new buttons
+    bindAnswerButtonEvents();
+    
     loadQuestion();
 }
+
+function bindAnswerButtonEvents() {
+    const buttons = answerButtonsElement.querySelectorAll('.answer-button');
+    buttons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            if (!event.target.disabled) {
+                const selectedAnswer = event.target.dataset.choice;
+                checkAnswer(selectedAnswer);
+            }
+        });
+    });
+}
+
+// Remove the global click event listener
+// answerButtonsElement.addEventListener("click"...) should be removed
+
+// Start the game when the page loads
+window.addEventListener('load', initializeGame);
 
 function loadQuestion() {
     if (currentQuestionIndex >= currentQuestions.length) {
@@ -474,18 +495,69 @@ function checkAnswer(selectedAnswer) {
     }, gameConfig.questionTimeout);
 }
 
+
+function generateShareText(score, totalQuestions, percentage) {
+    return `🎯 I scored ${score}/${totalQuestions} (${percentage}%) in Stock Market Crorepati! Think you can beat my score? Take the challenge! #StockMarketCrorepati #FinancialLiteracy`;
+}
+
+function shareScore() {
+    const shareText = generateShareText(score, currentQuestions.length, 
+        ((score / currentQuestions.length) * 100).toFixed(1));
+
+    // Check if Web Share API is supported
+    if (navigator.share) {
+        navigator.share({
+            title: 'Stock Market Crorepati Score',
+            text: shareText,
+        })
+        .catch(error => {
+            console.log('Error sharing:', error);
+            fallbackShare(shareText);
+        });
+    } else {
+        fallbackShare(shareText);
+    }
+}
+
+function fallbackShare(shareText) {
+    // Fallback to clipboard copy
+    navigator.clipboard.writeText(shareText)
+        .then(() => {
+            const confirmationEl = document.getElementById('share-confirmation');
+            confirmationEl.textContent = 'Score copied to clipboard! 📋';
+            setTimeout(() => {
+                confirmationEl.textContent = '';
+            }, 3000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+
 function endGame() {
     const percentage = ((score / currentQuestions.length) * 100).toFixed(1);
     questionElement.textContent = `Game Over! Your score: ${score} out of ${currentQuestions.length} (${percentage}%)`;
     
-    answerButtonsElement.innerHTML = `
-        <button onclick="restartGame()" class="answer-button">
-            Play Again
-        </button>
-    `;
+    // Clear answer buttons but maintain the container
+    answerButtonsElement.innerHTML = '';
+    
     resultElement.textContent = getFeedbackMessage(percentage);
     
-    console.log(`Game ended. Final score: ${score}/${currentQuestions.length}`); // Debug log
+    // Show share area with both buttons
+    const shareArea = document.getElementById('share-area');
+    shareArea.style.display = 'block';
+    shareArea.innerHTML = `
+        <button id="play-again" class="play-again-button">Play Again</button>
+        <button id="share-button" class="share-button">Share Score</button>
+        <p id="share-confirmation" class="share-confirmation"></p>
+    `;
+    
+    // Add event listeners
+    document.getElementById('play-again').addEventListener('click', () => {
+        shareArea.style.display = 'none';
+        initializeGame();
+    });
+    document.getElementById('share-button').addEventListener('click', shareScore);
 }
 
 function getFeedbackMessage(percentage) {

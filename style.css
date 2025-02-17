@@ -87,3 +87,47 @@ footer {
     font-size: 0.8em;
     color: #888;
 }
+
+.share-button {
+    background-color: #ffc600;
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.share-button:hover {
+    background-color: #ffcf33;
+}
+
+.share-confirmation {
+    color: #ffc600;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+#share-area {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.play-again-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 15px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.play-again-button:hover {
+    background-color: #45a049;
+}
