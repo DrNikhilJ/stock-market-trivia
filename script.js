@@ -3,7 +3,7 @@
 const allQuestions = [
     {
         question: "Which index is considered the benchmark index of the Indian stock market?",
-        choices: ["NIFTY 50", "Sensex", "Dow Jones", "FTSE 100"],
+        choices: ["NIFTY Bank", "Sensex", "Dow Jones", "FTSE 100"],
         correctAnswer: "Sensex"
     },
     {
@@ -154,7 +154,7 @@ const allQuestions = [
     {
         question: "What is the maximum number of members allowed in a trading group?",
         choices: ["50", "100", "200", "No limit"],
-        correctAnswer: "50"
+        correctAnswer: "No limit"
     },
     {
         question: "Which of these is NOT a type of mutual fund?",
@@ -253,8 +253,8 @@ const allQuestions = [
     },
     {
         question: "What is the minimum market capitalization for a company to be included in Nifty 50?",
-        choices: ["₹5,000 crore", "₹10,000 crore", "₹15,000 crore", "₹20,000 crore"],
-        correctAnswer: "₹5,000 crore"
+        choices: ["₹5,000 crore", "₹10,000 crore", "₹15,000 crore", "significantly larger than the smallest constituent in the index"],
+        correctAnswer: "significantly larger than the smallest constituent in the index"
     },
     {
         question: "Which of these is a volatility index in India?",
@@ -333,13 +333,13 @@ const allQuestions = [
     },
     {
         question: "What is the standard lot size for currency futures in India?",
-        choices: ["USD 1000", "USD 500", "USD 2000", "USD 5000"],
-        correctAnswer: "USD 1000"
+        choices: ["1000", "USD 1000", "2000", "5000"],
+        correctAnswer: "1000"
     },
     {
         question: "Which of these is considered a leading indicator?",
         choices: ["Nifty Bank", "GDP Growth", "Inflation Rate", "Unemployment Rate"],
-        correctAnswer: "Nifty Bank"
+        correctAnswer: "GDP Growth"
     },
     {
         question: "What is 'cognitive dissonance' in investing?",
@@ -365,7 +365,7 @@ const allQuestions = [
 
 // New configuration object for game settings
 const gameConfig = {
-    maxQuestions: 50,  // Maximum questions per game
+    maxQuestions: 15,  // Maximum questions per game
     questionTimeout: 2000  // Time between questions in milliseconds
 };
 
