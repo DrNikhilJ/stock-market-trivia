@@ -1,6 +1,6 @@
 // script.js
 
-const questions = [
+const allQuestions = [
     {
         question: "Which index is considered the benchmark index of the Indian stock market?",
         choices: ["NIFTY 50", "Sensex", "Dow Jones", "FTSE 100"],
@@ -362,6 +362,141 @@ const questions = [
         correctAnswer: "Reverse Averaging"
     }
 ];
+
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let score = 0;
+
+const questionElement = document.getElementById("question");
+const answerButtonsElement = document.getElementById("answer-buttons");
+const resultElement = document.getElementById("result");
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function initializeGame() {
+    // Create a copy of all questions and shuffle them
+    currentQuestions = shuffleArray([...allQuestions]);
+    // Take only first 50 questions
+    currentQuestions = currentQuestions.slice(0, 50);
+    currentQuestionIndex = 0;
+    score = 0;
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const currentQuestion = currentQuestions[currentQuestionIndex];
+    
+    // Shuffle the choices for this question
+    const shuffledChoices = shuffleArray([...currentQuestion.choices]);
+    
+    // Find the new index of the correct answer after shuffling
+    const correctAnswerIndex = shuffledChoices.indexOf(currentQuestion.correctAnswer);
+    
+    questionElement.textContent = `Question ${currentQuestionIndex + 1}/${currentQuestions.length}: ${currentQuestion.question}`;
+
+    const answerButtons = Array.from(answerButtonsElement.children);
+    
+    // Reset button states
+    answerButtons.forEach(button => {
+        button.classList.remove("correct", "incorrect");
+        button.disabled = false;
+    });
+
+    // Clear previous result
+    resultElement.textContent = "";
+
+    // Update buttons with shuffled choices
+    for (let i = 0; i < answerButtons.length; i++) {
+        const button = answerButtons[i];
+        const choiceLetter = String.fromCharCode(65 + i);
+        button.textContent = `${choiceLetter}: ${shuffledChoices[i]}`;
+        button.dataset.choice = shuffledChoices[i];
+    }
+}
+
+function checkAnswer(selectedAnswer) {
+    const currentQuestion = currentQuestions[currentQuestionIndex];
+    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    const answerButtons = Array.from(answerButtonsElement.children);
+
+    // Disable all buttons immediately
+    answerButtons.forEach(button => {
+        button.disabled = true;
+        
+        if (button.dataset.choice === currentQuestion.correctAnswer) {
+            button.classList.add("correct");
+        } else if (button.dataset.choice === selectedAnswer && !isCorrect) {
+            button.classList.add("incorrect");
+        }
+    });
+
+    // Update score and show feedback
+    if (isCorrect) {
+        score++;
+        resultElement.textContent = "Correct! 🎉";
+    } else {
+        resultElement.textContent = `Incorrect. The correct answer was: ${currentQuestion.correctAnswer}`;
+    }
+
+    // Move to next question or end game
+    setTimeout(() => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < currentQuestions.length) {
+            loadQuestion();
+        } else {
+            endGame();
+        }
+    }, 2000);
+}
+
+function endGame() {
+    const percentage = ((score / currentQuestions.length) * 100).toFixed(1);
+    questionElement.textContent = `Game Over! Your score: ${score} out of ${currentQuestions.length} (${percentage}%)`;
+    
+    answerButtonsElement.innerHTML = `
+        <button onclick="restartGame()" class="answer-button">
+            Play Again
+        </button>
+    `;
+    resultElement.textContent = getFeedbackMessage(percentage);
+}
+
+function getFeedbackMessage(percentage) {
+    if (percentage === 100) return "Perfect score! You're a Stock Market Expert! 🏆";
+    if (percentage >= 80) return "Excellent! You really know your stuff! 🌟";
+    if (percentage >= 60) return "Good job! Keep learning! 📚";
+    if (percentage >= 40) return "Not bad! Keep studying! 📈";
+    return "Keep studying the stock market basics! 💪";
+}
+
+function restartGame() {
+    // Reset the UI
+    answerButtonsElement.innerHTML = `
+        <button class="answer-button" data-choice="A">A: </button>
+        <button class="answer-button" data-choice="B">B: </button>
+        <button class="answer-button" data-choice="C">C: </button>
+        <button class="answer-button" data-choice="D">D: </button>
+    `;
+    // Initialize new game with fresh shuffled questions
+    initializeGame();
+}
+
+// Event listener for answer buttons
+answerButtonsElement.addEventListener("click", (event) => {
+    if (event.target.classList.contains("answer-button") && !event.target.disabled) {
+        const selectedAnswer = event.target.dataset.choice;
+        checkAnswer(selectedAnswer);
+    }
+});
+
+// Start the game when the page loads
+initializeGame();
 let currentQuestionIndex = 0;
 let score = 0;
 
