@@ -7,25 +7,6 @@ const allQuestions = [
         correctAnswer: "Sensex"
     },
     {
-        question: "What is the Japanese term for a candlestick pattern showing prices opening and closing at their highs?",
-        choices: ["Doji", "White Marubozu", "Harami", "Tenkan"],
-        correctAnswer: "White Marubozu"
-    },
-    {
-        question: "What is the Sortino Ratio used to measure?",
-        choices: [
-            "Downside deviation of returns",
-            "Market volatility",
-            "Portfolio diversification",
-            "Trading volume"
-        ],
-        correctAnswer: "Downside deviation of returns"
-    },
-    {
-        question: "Which debt instrument has the highest priority in case of company liquidation?",
-        choices: ["Debentures", "Secured Bonds", "Unsecured Bonds", "Convertible Bonds"],
-        correctA
-    {
         question: "What is the minimum investment amount required for Systematic Investment Plans (SIPs) in most mutual funds?",
         choices: ["₹100", "₹500", "₹1000", "₹5000"],
         correctAnswer: "₹500"
