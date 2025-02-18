@@ -1136,37 +1136,43 @@ function generateShareText(score, totalQuestions, percentage) {
 }
 
 function shareScore() {
-    const shareText = generateShareText(score, currentQuestions.length, 
-        ((score / currentQuestions.length) * 100).toFixed(1));
-
-    // Check if Web Share API is supported
-    if (navigator.share) {
-        navigator.share({
-            title: 'Stock Market Crorepati Score',
-            text: shareText,
-        })
-        .catch(error => {
-            console.log('Error sharing:', error);
-            fallbackShare(shareText);
-        });
-    } else {
-        fallbackShare(shareText);
-    }
+    const percentage = ((score / currentQuestions.length) * 100).toFixed(1);
+    const shareText = generateShareText(score, currentQuestions.length, percentage);
+    const url = window.location.href;
+    
+    // Create share buttons container if it doesn't exist
+    const shareArea = document.getElementById('share-area');
+    
+    // Clear previous share buttons
+    shareArea.innerHTML = `
+        <button class="share-button" onclick="shareToWhatsApp()">Share on WhatsApp</button>
+        <button class="share-button" onclick="shareToTwitter()">Share on Twitter</button>
+        <button class="share-button" onclick="shareToFacebook()">Share on Facebook</button>
+        <p id="share-confirmation" class="share-confirmation"></p>
+    `;
 }
 
-function fallbackShare(shareText) {
-    // Fallback to clipboard copy
-    navigator.clipboard.writeText(shareText)
-        .then(() => {
-            const confirmationEl = document.getElementById('share-confirmation');
-            confirmationEl.textContent = 'Score copied to clipboard! 📋';
-            setTimeout(() => {
-                confirmationEl.textContent = '';
-            }, 3000);
-        })
-        .catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
+// Individual share functions for each platform
+function shareToWhatsApp() {
+    const percentage = ((score / currentQuestions.length) * 100).toFixed(1);
+    const shareText = generateShareText(score, currentQuestions.length, percentage);
+    const url = window.location.href;
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + url)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+function shareToTwitter() {
+    const percentage = ((score / currentQuestions.length) * 100).toFixed(1);
+    const shareText = generateShareText(score, currentQuestions.length, percentage);
+    const url = window.location.href;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
+    window.open(twitterUrl, '_blank');
+}
+
+function shareToFacebook() {
+    const url = window.location.href;
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(facebookUrl, '_blank');
 }
 
 function endGame() {
@@ -1178,7 +1184,7 @@ function endGame() {
     
     resultElement.textContent = getFeedbackMessage(percentage);
     
-    // Show share area with both buttons
+    // Show share area with both play again and share buttons
     const shareArea = document.getElementById('share-area');
     shareArea.style.display = 'block';
     shareArea.innerHTML = `
